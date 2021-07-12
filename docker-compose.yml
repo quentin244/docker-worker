@@ -4,26 +4,40 @@ services:
     build:
       context: ./planner
     image: planner
+    container_name: planner
     ports:
      - "3000:3000"
     networks:
-      - webproxy
+      - localh
     depends_on: 
       - worker
+      - worker2
     environment: 
       - TASKS=4
   worker:
     build:
       context: ./worker
     image: worker
+    container_name: worker
     ports:
      - "8080:8080"
     networks:
-      - webproxy
+      - localh
     environment: 
       - MULT=true
-      - ADD=true
       - PORT=8080
+  worker2:
+    build:
+      context: ./worker
+    image: worker
+    container_name: worker2
+    ports:
+     - "8081:8081"
+    networks:
+      - localh
+    environment: 
+      - ADD=true
+      - PORT=8081
 networks:
-  webproxy:
+  localh:
     driver: bridge
