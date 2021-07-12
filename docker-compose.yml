@@ -8,7 +8,7 @@ services:
     ports:
      - "3000:3000"
     networks:
-      - localh
+      - planner
     depends_on: 
       - worker
       - worker2
@@ -22,7 +22,7 @@ services:
     ports:
      - "8080:8080"
     networks:
-      - localh
+      - worker
     environment: 
       - MULT=true
       - PORT=8080
@@ -34,10 +34,12 @@ services:
     ports:
      - "8081:8081"
     networks:
-      - localh
+      - worker
     environment: 
       - ADD=true
       - PORT=8081
 networks:
-  localh:
+  worker:
+    driver: bridge
+  planner:
     driver: bridge
