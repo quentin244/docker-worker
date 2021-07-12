@@ -1,0 +1,29 @@
+version: "2.2"
+services:
+  planner:
+    build:
+      context: ./planner
+    image: planner
+    ports:
+     - "3000:3000"
+    networks:
+      - webproxy
+    depends_on: 
+      - worker
+    environment: 
+      - TASKS=4
+  worker:
+    build:
+      context: ./worker
+    image: worker
+    ports:
+     - "8080:8080"
+    networks:
+      - webproxy
+    environment: 
+      - MULT=true
+      - ADD=true
+      - PORT=8080
+networks:
+  webproxy:
+    driver: bridge
